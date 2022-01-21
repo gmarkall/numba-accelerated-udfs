@@ -1,0 +1,487 @@
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"  />
+  <meta name="viewport" content="width=device-width, initial-scale=1"  />
+  <title>ImageMagick (legacy) – MagickCore, C API: Morphological Erosions, Dilations, Openings, and Closings</title>
+  <meta name="application-name" content="ImageMagick (legacy)" />
+  <meta name="description" content="" />
+  <meta name="application-url" content="https://legacy.imagemagick.org" />
+  <meta name="generator" content="PHP" />
+  <meta name="keywords" content="magickcore, c, api:, morphological, erosions, dilations, openings, closings, image processing software" />
+  <meta name="rating" content="GENERAL" />
+  <meta name="robots" content="INDEX, FOLLOW" />
+  <meta name="generator" content="ImageMagick Studio LLC" />
+  <meta name="author" content="ImageMagick Studio LLC" />
+  <meta name="revisit-after" content="2 DAYS" />
+  <meta name="resource-type" content="document" />
+  <meta name="copyright" content="Copyright (c) 1999-2020 ImageMagick Studio LLC" />
+  <meta name="distribution" content="Global" />
+  <meta name="magick-serial" content="P131-S030410-R485315270133-P82224-A6668-G1245-1" />
+  <meta property='og:url' content='https://legacy.imagemagick.org/' />
+  <meta property='og:title' content='ImageMagick' />
+  <meta property='og:image' content='https://legacy.imagemagick.org/images/logo.png' />
+  <meta property='og:type' content='website' />
+  <meta property='og:site_name' content='ImageMagick' />
+  <meta property='og:description' content="Create, Edit, Compose, or Convert Digital Images" />
+  <meta name="google-site-verification" content="_bMOCDpkx9ZAzBwb2kF3PRHbfUUdFj2uO8Jd1AXArz4" />
+  <link href="morphology.html" rel="canonical" />
+  <link href="../../images/wand.png" rel="icon" />
+  <link href="../../images/wand.ico" rel="shortcut icon" />
+  <link href="../assets/magick.css" rel="stylesheet" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="../index.html"><img class="d-block" id="icon" alt="ImageMagick" width="32" height="32" src="../../images/wand.ico"/></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#magick-navbars" aria-controls="magick-navbars" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="magick-navbars">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <li class="nav-item">
+          <a class="nav-link " href="../index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="../www/download.html">Download</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="../www/command-line-tools.html">Tools</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="../www/command-line-processing.html">CLI</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="../www/develop.html">Develop</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" target="_blank" href="https://github.com/ImageMagick/ImageMagick/discussions">Community</a>
+        </li>
+        <li class="nav-item">
+          <iframe src="https://github.com/sponsors/ImageMagick/button" title="Sponsor ImageMagick" height="35" width="107" style="border: 0;"></iframe>
+        </li>
+      </ul>
+      <form class="d-flex form-inline" action="https://imagemagick.org/script/search.php">
+        <input class="form-control me-2" type="text" name="q" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit" name="sa">Search</button>
+      </form>
+    </div>
+  </div>
+  </nav>
+
+  <div class="container">
+    <script async="async" src="https://localhost/pagead/js/adsbygoogle.js"></script>
+    <ins class="adsbygoogle"
+      style="display:block"
+      data-ad-client="ca-pub-3129977114552745"
+      data-ad-slot="6345125851"
+      data-full-width-responsive="true"
+      data-ad-format="horizontal"></ins>
+    <script>
+      (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+
+  </div>
+
+  <main class="container">
+  <div class="magick-template">
+<div class="magick-header">
+<p class="text-center"><a href="morphology.html#AcquireKernelInfo">AcquireKernelInfo</a> &#8226; <a href="morphology.html#CloneKernelInfo">CloneKernelInfo</a> &#8226; <a href="morphology.html#DestroyKernelInfo">DestroyKernelInfo</a> &#8226; <a href="morphology.html#MorphologyApply">MorphologyApply</a> &#8226; <a href="morphology.html#MorphologyImageChannel">MorphologyImageChannel</a> &#8226; <a href="morphology.html#ScaleGeometryKernelInfo">ScaleGeometryKernelInfo</a> &#8226; <a href="morphology.html#ScaleKernelInfo">ScaleKernelInfo</a> &#8226; <a href="morphology.html#ShowKernelInfo">ShowKernelInfo</a> &#8226; <a href="morphology.html#UnityAddKernelInfo">UnityAddKernelInfo</a> &#8226; <a href="morphology.html#ZeroKernelNans">ZeroKernelNans</a></p>
+
+<h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="AcquireKernelInfo">AcquireKernelInfo</a></h2>
+
+<p>AcquireKernelInfo() takes the given string (generally supplied by the user) and converts it into a Morphology/Convolution Kernel.  This allows users to specify a kernel from a number of pre-defined kernels, or to fully specify their own kernel for a specific Convolution or Morphology Operation.</p>
+
+<p>The kernel so generated can be any rectangular array of floating point values (doubles) with the 'control point' or 'pixel being affected' anywhere within that array of values.</p>
+
+<p>Previously IM was restricted to a square of odd size using the exact center as origin, this is no longer the case, and any rectangular kernel with any value being declared the origin. This in turn allows the use of highly asymmetrical kernels.</p>
+
+<p>The floating point values in the kernel can also include a special value known as 'nan' or 'not a number' to indicate that this value is not part of the kernel array. This allows you to shaped the kernel within its rectangular area. That is 'nan' values provide a 'mask' for the kernel shape.  However at least one non-nan value must be provided for correct working of a kernel.</p>
+
+<p>The returned kernel should be freed using the DestroyKernelInfo method when you are finished with it.  Do not free this memory yourself.</p>
+
+<p>Input kernel defintion strings can consist of any of three types.</p>
+
+<p>"name:args[[@&gt;&lt;]" Select from one of the built in kernels, using the name and geometry arguments supplied.  See AcquireKernelBuiltIn()</p>
+
+<p>"WxH[+X+Y][@&gt;&lt;]:num, num, num ..." a kernel of size W by H, with W*H floating point numbers following. the 'center' can be optionally be defined at +X+Y (such that +0+0 is top left corner). If not defined the pixel in the center, for odd sizes, or to the immediate top or left of center for even sizes is automatically selected.</p>
+
+<p>"num, num, num, num, ..." list of floating point numbers defining an 'old style' odd sized square kernel.  At least 9 values should be provided for a 3x3 square kernel, 25 for a 5x5 square kernel, 49 for 7x7, etc. Values can be space or comma separated.  This is not recommended.</p>
+
+<p>You can define a 'list of kernels' which can be used by some morphology operators A list is defined as a semi-colon separated list kernels.</p>
+
+<p>" kernel ; kernel ; kernel ; "</p>
+
+<p>Any extra ';' characters, at start, end or between kernel defintions are simply ignored.</p>
+
+<p>The special flags will expand a single kernel, into a list of rotated kernels. A '@' flag will expand a 3x3 kernel into a list of 45-degree cyclic rotations, while a '&gt;' will generate a list of 90-degree rotations. The '&lt;' also exands using 90-degree rotates, but giving a 180-degree reflected kernel before the +/- 90-degree rotations, which can be important for Thinning operations.</p>
+
+<p>Note that 'name' kernels will start with an alphabetic character while the new kernel specification has a ':' character in its specification string. If neither is the case, it is assumed an old style of a simple list of numbers generating a odd-sized square kernel has been given.</p>
+
+<p>The format of the AcquireKernal method is:</p>
+
+<pre class="text">
+KernelInfo *AcquireKernelInfo(const char *kernel_string)
+</pre>
+
+<p>A description of each parameter follows:</p>
+
+<dd>
+</dd>
+
+<dd> </dd>
+<dl class="dl-horizontal">
+<dt>kernel_string</dt>
+<dd>the Morphology/Convolution kernel wanted. </dd>
+
+<dd>  </dd>
+</dl>
+<h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="CloneKernelInfo">CloneKernelInfo</a></h2>
+
+<p>CloneKernelInfo() creates a new clone of the given Kernel List so that its can be modified without effecting the original.  The cloned kernel should be destroyed using DestoryKernelInfo() when no longer needed.</p>
+
+<p>The format of the CloneKernelInfo method is:</p>
+
+<pre class="text">
+KernelInfo *CloneKernelInfo(const KernelInfo *kernel)
+</pre>
+
+<p>A description of each parameter follows:</p>
+
+<dd>
+</dd>
+
+<dd> </dd>
+<dl class="dl-horizontal">
+<dt>kernel</dt>
+<dd>the Morphology/Convolution kernel to be cloned </dd>
+
+<dd>  </dd>
+</dl>
+<h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="DestroyKernelInfo">DestroyKernelInfo</a></h2>
+
+<p>DestroyKernelInfo() frees the memory used by a Convolution/Morphology kernel.</p>
+
+<p>The format of the DestroyKernelInfo method is:</p>
+
+<pre class="text">
+KernelInfo *DestroyKernelInfo(KernelInfo *kernel)
+</pre>
+
+<p>A description of each parameter follows:</p>
+
+<dd>
+</dd>
+
+<dd> </dd>
+<dl class="dl-horizontal">
+<dt>kernel</dt>
+<dd>the Morphology/Convolution kernel to be destroyed </dd>
+
+<dd>  </dd>
+</dl>
+<h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="MorphologyApply">MorphologyApply</a></h2>
+
+<p>MorphologyApply() applies a morphological method, multiple times using a list of multiple kernels.  This is the method that should be called by other 'operators' that internally use morphology operations as part of their processing.</p>
+
+<p>It is basically equivalent to as MorphologyImage() (see below) but without any user controls.  This allows internel programs to use this function, to actually perform a specific task without possible interference by any API user supplied settings.</p>
+
+<p>It is MorphologyImage() task to extract any such user controls, and pass them to this function for processing.</p>
+
+<p>More specifically all given kernels should already be scaled, normalised, and blended appropriatally before being parred to this routine. The appropriate bias, and compose (typically 'UndefinedComposeOp') given.</p>
+
+<p>The format of the MorphologyApply method is:</p>
+
+<pre class="text">
+Image *MorphologyApply(const Image *image,MorphologyMethod method,
+  const ChannelType channel, const ssize_t iterations,
+  const KernelInfo *kernel, const CompositeMethod compose,
+  const double bias, ExceptionInfo *exception)
+</pre>
+
+<p>A description of each parameter follows:</p>
+
+<dd>
+</dd>
+
+<dd> </dd>
+<dl class="dl-horizontal">
+<dt>image</dt>
+<dd>the source image </dd>
+
+<dd> </dd>
+<dt>method</dt>
+<dd>the morphology method to be applied. </dd>
+
+<dd> </dd>
+<dt>channel</dt>
+<dd>the channels to which the operations are applied The channel 'sync' flag determines if 'alpha weighting' is applied for convolution style operations. </dd>
+
+<dd> </dd>
+<dt>iterations</dt>
+<dd>apply the operation this many times (or no change). A value of -1 means loop until no change found. How this is applied may depend on the morphology method. Typically this is a value of 1. </dd>
+
+<dd> </dd>
+<dt>channel</dt>
+<dd>the channel type. </dd>
+
+<dd> </dd>
+<dt>kernel</dt>
+<dd>An array of double representing the morphology kernel. </dd>
+
+<dd> </dd>
+<dt>compose</dt>
+<dd>How to handle or merge multi-kernel results. If 'UndefinedCompositeOp' use default for the Morphology method. If 'NoCompositeOp' force image to be re-iterated by each kernel. Otherwise merge the results using the compose method given. </dd>
+
+<dd> </dd>
+<dt>bias</dt>
+<dd>Convolution Output Bias. </dd>
+
+<dd> </dd>
+<dt>exception</dt>
+<dd>return any errors or warnings in this structure. </dd>
+
+<dd>  </dd>
+</dl>
+<h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="MorphologyImageChannel">MorphologyImageChannel</a></h2>
+
+<p>MorphologyImageChannel() applies a user supplied kernel to the image according to the given mophology method.</p>
+
+<p>This function applies any and all user defined settings before calling the above internal function MorphologyApply().</p>
+
+<p>User defined settings include... * Output Bias for Convolution and correlation   ("-bias" or "-define convolve:bias=??") * Kernel Scale/normalize settings     ("-set 'option:convolve:scale'") This can also includes the addition of a scaled unity kernel. * Show Kernel being applied           ("-set option:showKernel 1")</p>
+
+<p>The format of the MorphologyImage method is:</p>
+
+<pre class="text">
+Image *MorphologyImage(const Image *image,MorphologyMethod method,
+  const ssize_t iterations,KernelInfo *kernel,ExceptionInfo *exception)
+</pre>
+
+<p>Image *MorphologyImageChannel(const Image *image, const ChannelType channel,MorphologyMethod method,const ssize_t iterations, KernelInfo *kernel,ExceptionInfo *exception)</p>
+
+<p>A description of each parameter follows:</p>
+
+<dd>
+</dd>
+
+<dd> </dd>
+<dl class="dl-horizontal">
+<dt>image</dt>
+<dd>the image. </dd>
+
+<dd> </dd>
+<dt>method</dt>
+<dd>the morphology method to be applied. </dd>
+
+<dd> </dd>
+<dt>iterations</dt>
+<dd>apply the operation this many times (or no change). A value of -1 means loop until no change found. How this is applied may depend on the morphology method. Typically this is a value of 1. </dd>
+
+<dd> </dd>
+<dt>channel</dt>
+<dd>the channel type. </dd>
+
+<dd> </dd>
+<dt>kernel</dt>
+<dd>An array of double representing the morphology kernel. Warning: kernel may be normalized for the Convolve method. </dd>
+
+<dd> </dd>
+<dt>exception</dt>
+<dd>return any errors or warnings in this structure. </dd>
+
+<dd>  </dd>
+</dl>
+<h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="ScaleGeometryKernelInfo">ScaleGeometryKernelInfo</a></h2>
+
+<p>ScaleGeometryKernelInfo() takes a geometry argument string, typically provided as a  "-set option:convolve:scale {geometry}" user setting, and modifies the kernel according to the parsed arguments of that setting.</p>
+
+<p>The first argument (and any normalization flags) are passed to ScaleKernelInfo() to scale/normalize the kernel.  The second argument is then passed to UnityAddKernelInfo() to add a scled unity kernel into the scaled/normalized kernel.</p>
+
+<p>The format of the ScaleGeometryKernelInfo method is:</p>
+
+<pre class="text">
+void ScaleGeometryKernelInfo(KernelInfo *kernel,
+  const double scaling_factor,const MagickStatusType normalize_flags)
+</pre>
+
+<p>A description of each parameter follows:</p>
+
+<dd>
+</dd>
+
+<dd> </dd>
+<dl class="dl-horizontal">
+<dt>kernel</dt>
+<dd>the Morphology/Convolution kernel to modify </dd>
+
+<dd> o geometry: </dd>
+
+<pre class="text">
+       "-set option:convolve:scale {geometry}" setting.
+</pre>
+
+<p></dd>
+</dl>
+<h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="ScaleKernelInfo">ScaleKernelInfo</a></h2>
+
+<p>ScaleKernelInfo() scales the given kernel list by the given amount, with or without normalization of the sum of the kernel values (as per given flags).</p>
+
+<p>By default (no flags given) the values within the kernel is scaled directly using given scaling factor without change.</p>
+
+<p>If either of the two 'normalize_flags' are given the kernel will first be normalized and then further scaled by the scaling factor value given.</p>
+
+<p>Kernel normalization ('normalize_flags' given) is designed to ensure that any use of the kernel scaling factor with 'Convolve' or 'Correlate' morphology methods will fall into -1.0 to +1.0 range.  Note that for non-HDRI versions of IM this may cause images to have any negative results clipped, unless some 'bias' is used.</p>
+
+<p>More specifically.  Kernels which only contain positive values (such as a 'Gaussian' kernel) will be scaled so that those values sum to +1.0, ensuring a 0.0 to +1.0 output range for non-HDRI images.</p>
+
+<p>For Kernels that contain some negative values, (such as 'Sharpen' kernels) the kernel will be scaled by the absolute of the sum of kernel values, so that it will generally fall within the +/- 1.0 range.</p>
+
+<p>For kernels whose values sum to zero, (such as 'Laplician' kernels) kernel will be scaled by just the sum of the postive values, so that its output range will again fall into the  +/- 1.0 range.</p>
+
+<p>For special kernels designed for locating shapes using 'Correlate', (often only containing +1 and -1 values, representing foreground/brackground matching) a special normalization method is provided to scale the positive values separately to those of the negative values, so the kernel will be forced to become a zero-sum kernel better suited to such searches.</p>
+
+<p>WARNING: Correct normalization of the kernel assumes that the '*_range' attributes within the kernel structure have been correctly set during the kernels creation.</p>
+
+<p>NOTE: The values used for 'normalize_flags' have been selected specifically to match the use of geometry options, so that '!' means NormalizeValue, '^' means CorrelateNormalizeValue.  All other GeometryFlags values are ignored.</p>
+
+<p>The format of the ScaleKernelInfo method is:</p>
+
+<pre class="text">
+void ScaleKernelInfo(KernelInfo *kernel, const double scaling_factor,
+         const MagickStatusType normalize_flags )
+</pre>
+
+<p>A description of each parameter follows:</p>
+
+<dd>
+</dd>
+
+<dd> </dd>
+<dl class="dl-horizontal">
+<dt>kernel</dt>
+<dd>the Morphology/Convolution kernel </dd>
+
+<dd> o scaling_factor: </dd>
+
+<pre class="text">
+       zero.  If the kernel is normalized regardless of any flags.
+</pre>
+
+<p>o normalize_flags: </dd>
+
+<pre class="text">
+       specifically: NormalizeValue, CorrelateNormalizeValue,
+                     and/or PercentValue
+</pre>
+
+<p></dd>
+</dl>
+<h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="ShowKernelInfo">ShowKernelInfo</a></h2>
+
+<p>ShowKernelInfo() outputs the details of the given kernel defination to standard error, generally due to a users 'showKernel' option request.</p>
+
+<p>The format of the ShowKernelInfo method is:</p>
+
+<pre class="text">
+void ShowKernelInfo(const KernelInfo *kernel)
+</pre>
+
+<p>A description of each parameter follows:</p>
+
+<dd>
+</dd>
+
+<dd> </dd>
+<dl class="dl-horizontal">
+<dt>kernel</dt>
+<dd>the Morphology/Convolution kernel </dd>
+
+<dd>  </dd>
+</dl>
+<h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="UnityAddKernelInfo">UnityAddKernelInfo</a></h2>
+
+<p>UnityAddKernelInfo() Adds a given amount of the 'Unity' Convolution Kernel to the given pre-scaled and normalized Kernel.  This in effect adds that amount of the original image into the resulting convolution kernel.  This value is usually provided by the user as a percentage value in the 'convolve:scale' setting.</p>
+
+<p>The resulting effect is to convert the defined kernels into blended soft-blurs, unsharp kernels or into sharpening kernels.</p>
+
+<p>The format of the UnityAdditionKernelInfo method is:</p>
+
+<pre class="text">
+void UnityAdditionKernelInfo(KernelInfo *kernel, const double scale )
+</pre>
+
+<p>A description of each parameter follows:</p>
+
+<dd>
+</dd>
+
+<dd> </dd>
+<dl class="dl-horizontal">
+<dt>kernel</dt>
+<dd>the Morphology/Convolution kernel </dd>
+
+<dd> o scale: </dd>
+
+<pre class="text">
+       the given kernel.
+</pre>
+
+<p></dd>
+</dl>
+<h2><a href="https://legacy.imagemagick.org/api/MagickCore/morphology_8c.html" id="ZeroKernelNans">ZeroKernelNans</a></h2>
+
+<p>ZeroKernelNans() replaces any special 'nan' value that may be present in the kernel with a zero value.  This is typically done when the kernel will be used in special hardware (GPU) convolution processors, to simply matters.</p>
+
+<p>The format of the ZeroKernelNans method is:</p>
+
+<pre class="text">
+void ZeroKernelNans (KernelInfo *kernel)
+</pre>
+
+<p>A description of each parameter follows:</p>
+
+<dd>
+</dd>
+
+<dd> </dd>
+<dl class="dl-horizontal">
+<dt>kernel</dt>
+<dd>the Morphology/Convolution kernel </dd>
+
+<dd>  </dd>
+</dl>
+</div>
+  </div>
+  </main><!-- /.container -->
+  <footer class="magick-footer">
+    <div class="container-fluid">
+      <a href="../www/security-policy.html">Security</a> •
+      <a href="../www/news.html">News</a>
+     
+      <a href="morphology.html#"><img class="d-inline" id="wand" alt="And Now a Touch of Magick" width="16" height="16" src="../../images/wand.ico"/></a>
+     
+      <a href="../www/links.html">Related</a> •
+      <a href="../www/sitemap.html">Sitemap</a>
+   <br/>
+     <a href="../www/support.html">Sponsor</a> •
+     <a href="../www/cite.html">Cite</a> •
+     <a href="http://pgp.mit.edu/pks/lookup?op=get&amp;search=0x89AB63D48277377A">Public Key</a> •
+     <a href="../www/contact.html">Contact Us</a>
+   <br/>
+     <a href="https://github.com/imagemagick/imagemagick" target="_blank" rel="noopener" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 512 499.36" width="2%" height="2%" role="img" focusable="false"><title>GitHub</title><path fill="currentColor" fill-rule="evenodd" d="M256 0C114.64 0 0 114.61 0 256c0 113.09 73.34 209 175.08 242.9 12.8 2.35 17.47-5.56 17.47-12.34 0-6.08-.22-22.18-.35-43.54-71.2 15.49-86.2-34.34-86.2-34.34-11.64-29.57-28.42-37.45-28.42-37.45-23.27-15.84 1.73-15.55 1.73-15.55 25.69 1.81 39.21 26.38 39.21 26.38 22.84 39.12 59.92 27.82 74.5 21.27 2.33-16.54 8.94-27.82 16.25-34.22-56.84-6.43-116.6-28.43-116.6-126.49 0-27.95 10-50.8 26.35-68.69-2.63-6.48-11.42-32.5 2.51-67.75 0 0 21.49-6.88 70.4 26.24a242.65 242.65 0 0 1 128.18 0c48.87-33.13 70.33-26.24 70.33-26.24 14 35.25 5.18 61.27 2.55 67.75 16.41 17.9 26.31 40.75 26.31 68.69 0 98.35-59.85 120-116.88 126.32 9.19 7.9 17.38 23.53 17.38 47.41 0 34.22-.31 61.83-.31 70.23 0 6.85 4.61 14.81 17.6 12.31C438.72 464.97 512 369.08 512 256.02 512 114.62 397.37 0 256 0z"/></svg></a> •
+     <a href="https://twitter.com/imagemagick" target="_blank" rel="noopener" aria-label="Twitter"><svg xmlns="http://www.w3.org/2000/svg" class="navbar-nav-svg" viewBox="0 0 512 416.32" width="2%" height="2%" role="img" focusable="false"><title>Twitter</title><path fill="currentColor" d="M160.83 416.32c193.2 0 298.92-160.22 298.92-298.92 0-4.51 0-9-.2-13.52A214 214 0 0 0 512 49.38a212.93 212.93 0 0 1-60.44 16.6 105.7 105.7 0 0 0 46.3-58.19 209 209 0 0 1-66.79 25.37 105.09 105.09 0 0 0-181.73 71.91 116.12 116.12 0 0 0 2.66 24c-87.28-4.3-164.73-46.3-216.56-109.82A105.48 105.48 0 0 0 68 159.6a106.27 106.27 0 0 1-47.53-13.11v1.43a105.28 105.28 0 0 0 84.21 103.06 105.67 105.67 0 0 1-47.33 1.84 105.06 105.06 0 0 0 98.14 72.94A210.72 210.72 0 0 1 25 370.84a202.17 202.17 0 0 1-25-1.43 298.85 298.85 0 0 0 160.83 46.92"/></svg></a>
+    <br/>
+    <small>Copyright © 1999 ImageMagick Studio LLC</small>
+    </div>
+  </footer>
+
+  <!-- Javascript assets -->
+  <script src="../assets/magick.js" ></script>
+  </body>
+</html>
