@@ -20,7 +20,7 @@ base_dir = os.path.dirname(os.path.abspath(__file__))
 build_dir = os.path.join(base_dir, 'build')
 
 filigree_include = os.path.join(base_dir, 'include')
-cuda_include = os.path.join(os.sep, 'usr', 'local', 'cuda-11.5', 'include')
+cuda_include = os.path.join(os.sep, 'usr', 'local', 'cuda', 'include')
 rmm_include = os.path.join(build_dir, '_deps', 'rmm-src', 'include')
 spdlog_include = os.path.join(build_dir, '_deps', 'spdlog-src', 'include')
 
@@ -34,7 +34,7 @@ def get_im_cflags():
     return cp.stdout.decode().strip().split()
 
 
-extra_compile_args = ['-Wall', '-Werror'] + get_im_cflags()
+extra_compile_args = ['-Wall', '-Werror', '-std=c++17'] + get_im_cflags()
 
 module = Extension(
     'filigree._lib',
