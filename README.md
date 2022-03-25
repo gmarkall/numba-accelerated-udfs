@@ -30,9 +30,10 @@ The components of this repo are:
 - The Filigree Python library / API. This provides access to Filigree's kernels
   and operations from Python, but standalone it is not possible to write
   transformation kernels in Python.
-- A Numba extension used by Filigree's Python API to enable users to write image
-  transformation functions that run on the GPU in Python, without the user
-  needing any involvment in / experience with CUDA.
+- A [Numba extension](filigree/numba_extension.py) used by Filigree's Python
+  API to enable users to write image transformation functions that run on the
+  GPU in Python, without the user needing any involvment in / experience with
+  CUDA.
 - PTX examples from Numba and NVCC for comparison of the generated code, as
   referenced in the talk.
 - An example notebook demonstrating the use of the Filigree Numba extension.
