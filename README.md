@@ -79,6 +79,8 @@ conda activate filigree
 
 ## Building
 
+(Note the following steps are all automated in the script [`build.sh`](build.sh))
+
 Due the requirement for a specific version of ImageMagick (6, which is used as
 it has a simpler image data structure than 7), a couple of dependencies are
 vendored into this repository. Dependencies are installed into the Conda
