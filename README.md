@@ -37,13 +37,27 @@ The components of this repo are:
   referenced in the talk.
 - An example notebook demonstrating the use of the Filigree Numba extension.
 
+## Quick start - Docker image
+
+A pre-built docker image has been made, which can be used to run the example
+notebook. To run it, use:
+
+```
+docker pull gmarkall/filigree:v1
+docker run -p 8888:8888 gmarkall/filigree:v1
+```
+
+If you are not able to use the Docker image or would prefer to build in your
+own environment, please continue with the following instructions for building
+the dependencies and libraries.
+
 
 ## Requirements
 
 The code and examples in this repository are aimed at being usable on a recent
-Linux distribution. If you have any difficulty in setting up the environment,
-building the code, running the example, or in understanding the Numba extension,
-please [open an
+Linux distribution with the CUDA toolkit 11.2 or later installed. If you have
+any difficulty in setting up the environment, building the code, running the
+example, or in understanding the Numba extension, please [open an
 issue](https://github.com/gmarkall/numba-accelerated-udfs/issues).
 
 
