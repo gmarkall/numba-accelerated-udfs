@@ -1,6 +1,8 @@
 #!/bin/bash
 
-export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:$CONDA_PREFIX/lib/pkgconfig
+set -euo pipefail
+
+export PKG_CONFIG_PATH=${PKG_CONFIG_PATH:-}:$CONDA_PREFIX/lib/pkgconfig
 
 build_im()
 {
