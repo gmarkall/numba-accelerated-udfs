@@ -46,3 +46,4 @@ build_im
 build_pillow
 build_filigree_cpp
 build_filigree_python
+pytest filigree
