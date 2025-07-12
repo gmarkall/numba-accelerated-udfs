@@ -7,6 +7,7 @@ export PKG_CONFIG_PATH=${PKG_CONFIG_PATH:-}:$CONDA_PREFIX/lib/pkgconfig
 build_im()
 {
   echo "Building ImageMagick..."
+  rm -rf im_build
   mkdir im_build
   cd im_build
   ../vendor/ImageMagick6/configure --prefix=$CONDA_PREFIX
@@ -26,6 +27,7 @@ build_pillow()
 build_filigree_cpp()
 {
   echo "Building Filigree C++ components..."
+  rm -rf build
   mkdir build
   cd build
   cmake .. -G Ninja -DCMAKE_INSTALL_PREFIX=$CONDA_PREFIX
